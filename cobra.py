@@ -48,6 +48,8 @@ def mudar_direcao(x, y):
     direcao.x = x
     direcao.y = y
 
+def clique():
+    if 
 
 def dentro_limites(cabeca):
     """Retorna True se a cabeça estiver dentro da área do jogo."""
@@ -57,7 +59,11 @@ def dentro_limites(cabeca):
 # -------------------------
 # Lógica principal do jogo
 # -------------------------
-
+def posicao_comida():
+    comida.x = randrange(-15, 15) * 10
+    comida.y = randrange(-15, 15) * 10
+    ontimer(posicao_comida, 7000)
+    
 def mover():
     """Move a cobra um passo à frente."""
     cabeca = cobra[-1].copy()
@@ -94,7 +100,7 @@ def mover():
 
     update()
 
-    ontimer(mover, 100)
+    ontimer(mover, 70)
 
 
 # -------------------------
@@ -110,6 +116,8 @@ onkey(lambda: mudar_direcao(10, 0), 'Right')
 onkey(lambda: mudar_direcao(-10, 0), 'Left')
 onkey(lambda: mudar_direcao(0, 10), 'Up')
 onkey(lambda: mudar_direcao(0, -10), 'Down')
+onkey(lambda: clique())
 
 mover()
+posicao_comida()
 mainloop()
