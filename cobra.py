@@ -23,12 +23,14 @@ que jogaram o jogo com suas respectivas pontuações.
 
 Leia o código com atenção antes de começar.
 """
+import pygame
 
 from random import randrange
 from turtle import *
 
 from freegames import square, vector
 
+pygame.init()
 
 # -------------------------
 # Estado inicial do jogo
@@ -37,7 +39,7 @@ from freegames import square, vector
 comida = vector(0, 0)
 cobra = [vector(10, 0)]
 direcao = vector(0, -10)
-
+rodando = True
 
 # -------------------------
 # Funções auxiliares
@@ -49,7 +51,10 @@ def mudar_direcao(x, y):
     direcao.y = y
 
 def clique():
-    if 
+    while rodando:
+        if direcao.type == pygame.MOUSEBUTTONDOWN:
+            direcao.x, direcao.y = pygame.mouse.get_pos()
+
 
 def dentro_limites(cabeca):
     """Retorna True se a cabeça estiver dentro da área do jogo."""
@@ -116,8 +121,9 @@ onkey(lambda: mudar_direcao(10, 0), 'Right')
 onkey(lambda: mudar_direcao(-10, 0), 'Left')
 onkey(lambda: mudar_direcao(0, 10), 'Up')
 onkey(lambda: mudar_direcao(0, -10), 'Down')
-onkey(lambda: clique())
 
 mover()
 posicao_comida()
+clique()
+pygame.quit()
 mainloop()
