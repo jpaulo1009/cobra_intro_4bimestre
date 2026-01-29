@@ -23,14 +23,12 @@ que jogaram o jogo com suas respectivas pontuações.
 
 Leia o código com atenção antes de começar.
 """
-import pygame
+
 
 from random import randrange
 from turtle import *
 
 from freegames import square, vector
-
-pygame.init()
 
 # -------------------------
 # Estado inicial do jogo
@@ -39,7 +37,6 @@ pygame.init()
 comida = vector(0, 0)
 cobra = [vector(10, 0)]
 direcao = vector(0, -10)
-rodando = True
 
 # -------------------------
 # Funções auxiliares
@@ -49,12 +46,6 @@ def mudar_direcao(x, y):
     """Altera a direção do movimento da cobra."""
     direcao.x = x
     direcao.y = y
-
-def clique():
-    while rodando:
-        if direcao.type == pygame.MOUSEBUTTONDOWN:
-            direcao.x, direcao.y = pygame.mouse.get_pos()
-
 
 def dentro_limites(cabeca):
     """Retorna True se a cabeça estiver dentro da área do jogo."""
@@ -84,24 +75,25 @@ def mover():
     cobra.append(cabeca)
 
     if cabeca == comida:
+        cobra.append(cabeca)
         print('Tamanho da cobra:', len(cobra))
-
+        
         # Nova posição aleatória para a comida
         comida.x = randrange(-15, 15) * 10
         comida.y = randrange(-15, 15) * 10
     else:
         # TODO:
-        # Remova o primeiro segmento da cobra
-        pass
+        for segmento in cobra:
+            cobra.pop(0)
 
     clear()
 
     # Desenho da cobra
     for segmento in cobra:
-        square(segmento.x, segmento.y, 9, 'black')
+        square(segmento.x, segmento.y, 13, 'black')
 
     # Desenho da comida
-    square(comida.x, comida.y, 9, 'green')
+    square(comida.x, comida.y, 13, 'green')
 
     update()
 
@@ -124,6 +116,5 @@ onkey(lambda: mudar_direcao(0, -10), 'Down')
 
 mover()
 posicao_comida()
-clique()
-pygame.quit()
+
 mainloop()
