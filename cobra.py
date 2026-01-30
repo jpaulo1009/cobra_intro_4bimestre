@@ -26,6 +26,7 @@ Leia o código com atenção antes de começar.
 
 
 from random import randrange
+from turtle import *
 from turtle import onscreenclick
 
 from freegames import square, vector
@@ -37,19 +38,33 @@ from freegames import square, vector
 comida = vector(0, 0)
 cobra = [vector(10, 0)]
 direcao = vector(0, -10)
-mouse = None
+
 # -------------------------
 # Funções auxiliares
 # -------------------------
 
 def clique(x, y):
-    global mouse
-    mouse = (x, y)
+    cabeca = cobra[-1]
+
+    dx = x - cabeca.x
+    dy = y - cabeca.y
+
+    # Decide qual direção o clique representa
+    if abs(dx) > abs(dy):
+        nova = vector(10, 0) if dx > 0 else vector(-10, 0)
+    else:
+        nova = vector(0, 10) if dy > 0 else vector(0, -10)
+
+    direcao.x = nova.x
+    direcao.y = nova.y
+
+
 
 def mudar_direcao(x, y):
     """Altera a direção do movimento da cobra."""
     direcao.x = x
     direcao.y = y
+
 
 def dentro_limites(cabeca):
     """Retorna True se a cabeça estiver dentro da área do jogo."""
@@ -63,16 +78,17 @@ def posicao_comida():
     comida.x = randrange(-15, 15) * 10
     comida.y = randrange(-15, 15) * 10
     ontimer(posicao_comida, 7000)
-    
+
 def mover():
     """Move a cobra um passo à frente."""
     cabeca = cobra[-1].copy()
     cabeca.move(direcao)
 
-    # TODO: 
-    # Extraia `cabeca in cobra` para uma função
-    if not dentro_limites(cabeca) or cabeca in cobra:
-        square(cabeca.x, cabeca.y, 9, 'red')
+    if cabeca in cobra:
+        square(cabeca.x, cabeca.y, 13, 'red')
+
+    if not dentro_limites(cabeca):
+        
         update()
         return
 
@@ -85,9 +101,7 @@ def mover():
         comida.x = randrange(-15, 15) * 10
         comida.y = randrange(-15, 15) * 10
     else:
-        # TODO:
-        for segmento in cobra:
-            cobra.pop(0)
+        cobra.pop(0)
 
     clear()
 
@@ -116,7 +130,8 @@ onkey(lambda: mudar_direcao(10, 0), 'Right')
 onkey(lambda: mudar_direcao(-10, 0), 'Left')
 onkey(lambda: mudar_direcao(0, 10), 'Up')
 onkey(lambda: mudar_direcao(0, -10), 'Down')
-onscreenclick(clique(x, y))
+onscreenclick(clique)
+
 mover()
 posicao_comida()
 
