@@ -26,7 +26,7 @@ Leia o código com atenção antes de começar.
 
 
 from random import randrange
-from turtle import *
+from turtle import onscreenclick
 
 from freegames import square, vector
 
@@ -37,10 +37,14 @@ from freegames import square, vector
 comida = vector(0, 0)
 cobra = [vector(10, 0)]
 direcao = vector(0, -10)
-
+mouse = None
 # -------------------------
 # Funções auxiliares
 # -------------------------
+
+def clique(x, y):
+    global mouse
+    mouse = (x, y)
 
 def mudar_direcao(x, y):
     """Altera a direção do movimento da cobra."""
@@ -75,7 +79,6 @@ def mover():
     cobra.append(cabeca)
 
     if cabeca == comida:
-        cobra.append(cabeca)
         print('Tamanho da cobra:', len(cobra))
         
         # Nova posição aleatória para a comida
@@ -113,7 +116,7 @@ onkey(lambda: mudar_direcao(10, 0), 'Right')
 onkey(lambda: mudar_direcao(-10, 0), 'Left')
 onkey(lambda: mudar_direcao(0, 10), 'Up')
 onkey(lambda: mudar_direcao(0, -10), 'Down')
-
+onscreenclick(clique(x, y))
 mover()
 posicao_comida()
 
