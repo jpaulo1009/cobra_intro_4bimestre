@@ -44,12 +44,11 @@ direcao = vector(0, -10)
 # -------------------------
 
 def clique(x, y):
-    cabeca = cobra[-1]
+    cabeca = cobra[0]
 
     dx = x - cabeca.x
     dy = y - cabeca.y
 
-    # Decide qual direção o clique representa
     if abs(dx) > abs(dy):
         nova = vector(10, 0) if dx > 0 else vector(-10, 0)
     else:
