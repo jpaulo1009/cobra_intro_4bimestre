@@ -87,7 +87,6 @@ def mover():
         square(cabeca.x, cabeca.y, 13, 'red')
 
     if not dentro_limites(cabeca):
-        
         update()
         return
 
@@ -101,7 +100,7 @@ def mover():
         comida.y = randrange(-15, 15) * 10
     else:
         cobra.pop(0)
-
+    
     clear()
 
     # Desenho da cobra
