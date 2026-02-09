@@ -39,9 +39,14 @@ comida = vector(0, 0)
 cobra = [vector(10, 0)]
 direcao = vector(0, -10)
 
+jogador = ""
+rodada = 1
 # -------------------------
 # Funções auxiliares
 # -------------------------
+def inicio_jogo():
+    global jogador
+    jogador = textinput("Novo jogador", "Digite seu nome: ")
 
 def clique(x, y):
     cabeca = cobra[0]
@@ -69,7 +74,9 @@ def dentro_limites(cabeca):
     """Retorna True se a cabeça estiver dentro da área do jogo."""
     return -200 < cabeca.x < 190 and -200 < cabeca.y < 190
 
-
+def salvar_jogador(jogador):
+    with open("listinha_pae", "a") as f:
+        f.write(jogador + "\n")
 # -------------------------
 # Lógica principal do jogo
 # -------------------------
@@ -80,6 +87,8 @@ def posicao_comida():
 
 def mover():
     """Move a cobra um passo à frente."""
+    global rodada
+    
     cabeca = cobra[-1].copy()
     cabeca.move(direcao)
 
@@ -114,15 +123,18 @@ def mover():
 
     ontimer(mover, 70)
 
+    salvar_jogador()
+
 
 # -------------------------
 # Configuração da janela
 # -------------------------
-
 setup(420, 420, 370, 0)
 hideturtle()
 tracer(False)
 listen()
+
+inicio_jogo()
 
 onkey(lambda: mudar_direcao(10, 0), 'Right')
 onkey(lambda: mudar_direcao(-10, 0), 'Left')
